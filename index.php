@@ -7,3 +7,19 @@
  * Utilisez UNION ALL pour afficher toutes les données y compris les doublons, affichez le résultat  à l'aide d'une boucle ou d'un print_r.
  * PS: Si vous utilisez un print_r, alors utilisez la balise <pre> pour un résultat plus propre.
  */
+
+require_once 'DB/DB.php';
+
+$result = DB::getInstance()->prepare("
+                                            SELECT username, password, email FROM admin
+                                            UNION ALL
+                                            SELECT username, password, email FROM client
+                                            UNION ALL
+                                            SELECT username, password, email FROM user
+                                            ");
+
+if($result->execute()) {
+    echo "<pre>";
+    print_r($result->fetchAll());
+    echo "</pre>";
+};
